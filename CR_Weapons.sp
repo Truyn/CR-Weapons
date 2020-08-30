@@ -58,7 +58,7 @@ public void CR_OnRoundStart(KeyValues Kv)
 		KvGetString(Kv, "weapons", g_sWeapons, sizeof(g_sWeapons));			// Ключ `weapons` в который нужно вписать оружия, которые нужно выдавать
 		g_bBlock		= view_as<bool>(Kv.GetNum("block_weapons", 0));		// Не работает, если нет оружий в ключе `weapons`
 		g_bNoWeapon		= view_as<bool>(Kv.GetNum("no_weapons", 0));		// Очищает игроков от оружия
-		g_bNoKnife 		= view_as<bool>(Kv.GetNum("no_knife", 0));			// Очищает оружие, и блокирует ножи, если есть оружия в ключе `weapons`
+		g_bNoKnife 		= view_as<bool>(Kv.GetNum("no_knife", 0));		// Очищает оружие, и блокирует ножи, если есть оружия в ключе `weapons`
 		g_bSave	 		= view_as<bool>(Kv.GetNum("save_weapons", 1));		// Сохраняет оружия игрока перед нестандартным раундом
 	}
 }
