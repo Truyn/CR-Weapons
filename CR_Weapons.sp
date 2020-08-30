@@ -211,8 +211,8 @@ void GetWeaponName(int iEnt, char[] sBuff, int iBuffSize)
 		case 3: strcopy(sBuff, iBuffSize, "weapon_fiveseven");
 		case 16: strcopy(sBuff, iBuffSize, "weapon_m4a1");
 		case 23: strcopy(sBuff, iBuffSize, "weapon_mp5sd");
-        case 32: strcopy(sBuff, iBuffSize, "weapon_hkp2000");
-        case 33: strcopy(sBuff, iBuffSize, "weapon_mp7");
+		case 32: strcopy(sBuff, iBuffSize, "weapon_hkp2000");
+		case 33: strcopy(sBuff, iBuffSize, "weapon_mp7");
 		case 41: strcopy(sBuff, iBuffSize, "weapon_knifegg");
 		case 49: strcopy(sBuff, iBuffSize, "weapon_c4");
 		case 59: strcopy(sBuff, iBuffSize, "weapon_knife_t");
