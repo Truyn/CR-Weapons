@@ -12,12 +12,12 @@ ArrayList	g_hWeapons[MAXPLAYERS+1];
 char		g_sWeapons[256];
 
 bool		g_bBlock,
-			g_bNoWeapons,
-			g_bNoKnife,
-			g_bSave,
-			g_bSaved[MAXPLAYERS+1];
+		g_bNoWeapons,
+		g_bNoKnife,
+		g_bSave,
+		g_bSaved[MAXPLAYERS+1];
 
-int			m_iItemDefinitionIndex = -1;
+int		m_iItemDefinitionIndex = -1;
 
 public Plugin myinfo = 
 {
@@ -57,7 +57,7 @@ public void CR_OnRoundStart(KeyValues Kv)
 	{
 		KvGetString(Kv, "weapons", g_sWeapons, sizeof(g_sWeapons));			// Ключ `weapons` в который нужно вписать оружия, которые нужно выдавать
 		g_bBlock		= view_as<bool>(Kv.GetNum("block_weapons", 0));		// Не работает, если нет оружий в ключе `weapons`
-		g_bNoWeapons	= view_as<bool>(Kv.GetNum("no_weapons", 0));		// Очищает игроков от оружия
+		g_bNoWeapon		= view_as<bool>(Kv.GetNum("no_weapons", 0));		// Очищает игроков от оружия
 		g_bNoKnife 		= view_as<bool>(Kv.GetNum("no_knife", 0));			// Очищает оружие, и блокирует ножи, если есть оружия в ключе `weapons`
 		g_bSave	 		= view_as<bool>(Kv.GetNum("save_weapons", 1));		// Сохраняет оружия игрока перед нестандартным раундом
 	}
@@ -211,15 +211,15 @@ void GetWeaponName(int iEnt, char[] sBuff, int iBuffSize)
 		case 3: strcopy(sBuff, iBuffSize, "weapon_fiveseven");
 		case 16: strcopy(sBuff, iBuffSize, "weapon_m4a1");
 		case 23: strcopy(sBuff, iBuffSize, "weapon_mp5sd");
-        case 32: strcopy(sBuff, iBuffSize, "weapon_hkp2000");
-        case 33: strcopy(sBuff, iBuffSize, "weapon_mp7");
+		case 32: strcopy(sBuff, iBuffSize, "weapon_hkp2000");
+		case 33: strcopy(sBuff, iBuffSize, "weapon_mp7");
 		case 41: strcopy(sBuff, iBuffSize, "weapon_knifegg");
 		case 49: strcopy(sBuff, iBuffSize, "weapon_c4");
 		case 59: strcopy(sBuff, iBuffSize, "weapon_knife_t");
-        case 60: strcopy(sBuff, iBuffSize, "weapon_m4a1_silencer");
-        case 61: strcopy(sBuff, iBuffSize, "weapon_usp_silencer");
-        case 63: strcopy(sBuff, iBuffSize, "weapon_cz75a");
-        case 64: strcopy(sBuff, iBuffSize, "weapon_revolver");
+		case 60: strcopy(sBuff, iBuffSize, "weapon_m4a1_silencer");
+		case 61: strcopy(sBuff, iBuffSize, "weapon_usp_silencer");
+		case 63: strcopy(sBuff, iBuffSize, "weapon_cz75a");
+		case 64: strcopy(sBuff, iBuffSize, "weapon_revolver");
 		case 80: strcopy(sBuff, iBuffSize, "weapon_knife_ghost");
 		case 500: strcopy(sBuff, iBuffSize, "weapon_bayonet");
 		case 503: strcopy(sBuff, iBuffSize, "weapon_knife_classic");
