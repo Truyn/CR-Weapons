@@ -17,25 +17,25 @@ public Plugin myinfo =
 	url = "https://vk.com/fr4nch | https://github.com/fr0nch"
 };
 
-public void CR_OnRoundStart(KeyValues Kv)
+public void CR_OnPreRoundStart(KeyValues Kv)
 {
-	if(Kv) sFPSDisabled = view_as<bool>(Kv.GetNum("fps_disabled", 0));	
-}
-
-public Action FPS_OnPointsChangePre(int iAttacker, int iVictim, Event hEvent, float &fAddPointsAttacker, float &fAddPointsVictim)
-{
-	if(sFPSDisabled)
+	if(Kv)
 	{
-		fAddPointsAttacker = 0.0;
-		fAddPointsVictim = 0.0;
-        
-		return Plugin_Changed;
+		bFPSDisabled = view_as<bool>(Kv.GetNum("fps_disabled", 0));	
+		PrintToConsole(0,"sFPSDisabled изменился на: %b", bFPSDisabled);
+        	if(bFPSDisabled)
+        	{
+			FPS_DisableStatisPerRound();
+			PrintToConsole(0,"PreStart - sFPSDisabled: %b", bFPSDisabled);
+		}
 	}
-
-	return Plugin_Continue;
-} 
+}
 
 public void CR_OnRoundEnd(KeyValues Kv)
 {
-	if(Kv) if(sFPSDisabled) sFPSDisabled = false;
+	if(Kv)
+	{
+		if(bFPSDisabled) bFPSDisabled = false;
+		PrintToConsole(0,"sFPSDisabled изменился на: %b", bFPSDisabled);
+	}
 }
