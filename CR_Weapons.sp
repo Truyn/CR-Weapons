@@ -23,7 +23,7 @@ public Plugin myinfo =
 {
 	name = "[CR] Weapons",
 	author = "fr4nch",
-	version = "1.0"
+	version = "1.0",
 	url = "https://vk.com/fr4nch | https://github.com/fr0nch"
 };
 
