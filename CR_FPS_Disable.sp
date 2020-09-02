@@ -26,11 +26,11 @@ public Action FPS_OnPointsChangePre(int iAttacker, int iVictim, Event hEvent, fl
 {
 	if(sFPSDisabled)
 	{
-        fAddPointsAttacker = 0.0;
-        fAddPointsVictim = 0.0;
+		fAddPointsAttacker = 0.0;
+		fAddPointsVictim = 0.0;
         
-        return Plugin_Changed;
-    }
+		return Plugin_Changed;
+	}
 
 	return Plugin_Continue;
 } 
