@@ -13,7 +13,7 @@ public Plugin myinfo =
 	name = "[CR] FPS Disable",
 	description = "Данный модуль отключает получение очков опыта статистики FPS, во время не стандартного раунда.",
 	version = "1.0",
-    author = "fr4nch",
+	author = "fr4nch",
 	url = "vk.com/fr4nch"
 };
 
