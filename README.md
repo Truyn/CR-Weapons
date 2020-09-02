@@ -12,18 +12,12 @@
 {
 	"weapons"			"weapon_ssg08"
 	"block_weapons"		"1"
-
-	"message"			"Начался Scout Only раунд!"
-	"vip_disable"	"BunnyHop,BoostLadder,NoFallDamage,RegenHP"
 }
 
 "Knifes"
 {
 	"block_weapons"	"1"
 	"no_weapons"		"1"
-
-	"message"			"Начался Knife раунд!"
-	"vip_disable"	"BunnyHop,BoostLadder,NoFallDamage,RegenHP"
 }
   
 "Fists"
@@ -31,10 +25,5 @@
 	"weapons"			"weapon_fists"
 	"block_weapons"		"1"
 	"no_knife"			"1"
-
-	"hp"				"50"
-	"vip_disable"	"BunnyHop,BoostLadder,NoFallDamage,RegenHP"
-
-	"message"			"Начался кулачный раунд!"
 }
 ```
