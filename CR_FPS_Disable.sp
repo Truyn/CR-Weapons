@@ -22,20 +22,11 @@ public void CR_OnPreRoundStart(KeyValues Kv)
 	if(Kv)
 	{
 		bFPSDisabled = view_as<bool>(Kv.GetNum("fps_disabled", 0));	
-		PrintToConsole(0,"sFPSDisabled изменился на: %b", bFPSDisabled);
-        	if(bFPSDisabled)
-        	{
-			FPS_DisableStatisPerRound();
-			PrintToConsole(0,"PreStart - sFPSDisabled: %b", bFPSDisabled);
-		}
+		if(bFPSDisabled) FPS_DisableStatisPerRound();
 	}
 }
 
 public void CR_OnRoundEnd(KeyValues Kv)
 {
-	if(Kv)
-	{
-		if(bFPSDisabled) bFPSDisabled = false;
-		PrintToConsole(0,"sFPSDisabled изменился на: %b", bFPSDisabled);
-	}
+	if(Kv) if(bFPSDisabled) bFPSDisabled = false;
 }
