@@ -10,20 +10,20 @@
 ```
 "Scout Only"
 {
-	"weapons"			"weapon_ssg08"
+	"weapons"		"weapon_ssg08"
 	"block_weapons"		"1"
 }
 
 "Knifes"
 {
-	"block_weapons"	"1"
+	"block_weapons"		"1"
 	"no_weapons"		"1"
 }
   
 "Fists"
 {
-	"weapons"			"weapon_fists"
+	"weapons"		"weapon_fists"
 	"block_weapons"		"1"
-	"no_knife"			"1"
+	"no_knife"		"1"
 }
 ```
