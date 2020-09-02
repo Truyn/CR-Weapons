@@ -14,7 +14,7 @@ public Plugin myinfo =
 	description = "Данный модуль отключает получение очков опыта статистики FPS, во время не стандартного раунда.",
 	version = "1.0",
 	author = "fr4nch",
-	url = "vk.com/fr4nch"
+	url = "https://vk.com/fr4nch | https://github.com/fr0nch"
 };
 
 public void CR_OnRoundStart(KeyValues Kv)
