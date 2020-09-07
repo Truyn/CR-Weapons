@@ -15,7 +15,8 @@ bool		g_bBlock,
 			g_bNoWeapons,
 			g_bNoKnife,
 			g_bSave,
-			g_bSaved[MAXPLAYERS+1];
+			g_bSaved[MAXPLAYERS+1],
+			g_bClearMap;
 
 int			m_iItemDefinitionIndex = -1;
 
@@ -23,7 +24,7 @@ public Plugin myinfo =
 {
 	name = "[CR] Weapons",
 	author = "fr4nch",
-	version = "1.0",
+	version = "1.0.1",
 	url = "https://vk.com/fr4nch | https://github.com/fr0nch"
 };
 
@@ -61,6 +62,7 @@ public void CR_OnRoundStart(KeyValues Kv)
 		g_bNoWeapons	= view_as<bool>(Kv.GetNum("no_weapons", 0));		// Очищает игроков от оружия
 		g_bNoKnife 		= view_as<bool>(Kv.GetNum("no_knife", 0));			// Очищает оружие, и блокирует ножи, если есть оружия в ключе `weapons`
 		g_bSave	 		= view_as<bool>(Kv.GetNum("save_weapons", 1));		// Сохраняет оружия игрока перед нестандартным раундом
+		g_bClearMap		= view_as<bool>(Kv.GetNum("clear_map", 0));			// Очищает карту от оружия
 	}
 }
 
@@ -76,6 +78,7 @@ public void CR_OnPlayerSpawn(int iClient, KeyValues Kv)
 		//PrintToChat(iClient, "g_bSaved: %b", g_bSaved[iClient]);
 		//PrintToChat(iClient, "g_bSave: %b", g_bSave);
 		if(g_bNoWeapons || g_sWeapons[0]) ClearWeapons(iClient);
+		if(g_bClearMap) ClearMap();
 		if(g_sWeapons[0]) RequestFrame(GiveWeapons, iClient);
 	}
 }
@@ -89,6 +92,7 @@ public void CR_OnRoundEnd(KeyValues Kv)
 			if(IsClientInGame(i) && IsPlayerAlive(i))
 			{
 				ClearWeapons(i);
+				ClearMap();
 
 				if(g_bNoKnife)
 					GivePlayerItem(i, "weapon_knife_t");
@@ -185,6 +189,16 @@ void GiveSavedWeapons(int iClient)
 	ClearArray(g_hWeapons[iClient]);
 	g_bSaved[iClient] = false;
 	//PrintToChat(iClient, "g_bSaved: %b", g_bSaved[iClient]);
+}
+
+void ClearMap()
+{
+	int iEnt = MaxClients+1;
+	while ((iEnt = FindEntityByClassname(iEnt, "weapon_*")) != INVALID_ENT_REFERENCE)
+	{
+		if(GetEntPropEnt(iEnt, Prop_Data, "m_hOwnerEntity") == -1)
+			RemoveEntity(iEnt);
+	}
 }
 
 Action OnWeaponCanUse(int iClient, int iWeapon) 
