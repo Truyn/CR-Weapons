@@ -3,6 +3,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <sdkhooks>
+#include <cstrike>
 #include <custom_rounds>
 
 #pragma newdecls required
@@ -24,7 +25,7 @@ public Plugin myinfo =
 {
 	name = "[CR] Weapons",
 	author = "fr4nch",
-	version = "1.0.2",
+	version = "1.1.0",
 	url = "https://vk.com/fr4nch | https://github.com/fr0nch"
 };
 
@@ -113,7 +114,7 @@ public void CR_OnRoundEnd(KeyValues Kv)
 
 void ClearWeapons(int iClient)
 {
-	if(!IsFakeClient(iClient) && IsPlayerAlive(iClient))
+	if(IsClientInGame(iClient) && !IsFakeClient(iClient) && IsPlayerAlive(iClient))
 	{
 		char sWeapon[24]; 
 
@@ -157,7 +158,7 @@ void ClearWeapons(int iClient)
 
 void GiveWeapons(int iClient)
 {
-	if(!IsFakeClient(iClient) && IsPlayerAlive(iClient))
+	if(IsClientInGame(iClient) && !IsFakeClient(iClient) && IsPlayerAlive(iClient))
 	{
 		char sWeapons[10][24];
 		int count = ExplodeString(g_sWeapons, ",", sWeapons, sizeof(sWeapons), sizeof(sWeapons[]));
@@ -194,7 +195,7 @@ void GiveFists(int iClient)
 
 void GiveSavedWeapons(int iClient)
 {	
-	if(!IsFakeClient(iClient) && IsPlayerAlive(iClient))
+	if(IsClientInGame(iClient) && !IsFakeClient(iClient) && IsPlayerAlive(iClient))
 	{
 		char sWeapon[24];		
 		int size = GetArraySize(g_hWeapons[iClient]);
@@ -233,7 +234,8 @@ Action OnWeaponCanUse(int iClient, int iWeapon)
 	{
 		char sWeapon[24], sKnife[24];  
 		GetWeaponName(iWeapon, sWeapon, sizeof(sWeapon));
-		GetKnifeName(iWeapon, sKnife, sizeof(sKnife));
+		if (IsWeaponKnife(iWeapon))
+			GetWeaponName(iWeapon, sKnife, sizeof(sKnife));
 		if(StrEqual(sWeapon, sKnife, false) && !g_bNoKnife)
 			return Plugin_Continue;
 		if(StrContains(g_sWeapons, sWeapon, false) == -1)
@@ -244,75 +246,16 @@ Action OnWeaponCanUse(int iClient, int iWeapon)
 
 void GetWeaponName(int iEnt, char[] sBuff, int iBuffSize)
 {
-	int i = GetEntProp(iEnt, Prop_Send, "m_iItemDefinitionIndex");
+	int iItemDefinitionIndex = GetEntProp(iEnt, Prop_Send, "m_iItemDefinitionIndex");
+	char sAliasBuffer[64], sBuffer[32];
 	
-	switch(i)
-	{
-		case 1: strcopy(sBuff, iBuffSize, "weapon_deagle");
-		case 3: strcopy(sBuff, iBuffSize, "weapon_fiveseven");
-		case 16: strcopy(sBuff, iBuffSize, "weapon_m4a1");
-		case 23: strcopy(sBuff, iBuffSize, "weapon_mp5sd");
-		case 32: strcopy(sBuff, iBuffSize, "weapon_hkp2000");
-		case 33: strcopy(sBuff, iBuffSize, "weapon_mp7");
-		case 41: strcopy(sBuff, iBuffSize, "weapon_knifegg");
-		case 49: strcopy(sBuff, iBuffSize, "weapon_c4");
-		case 59: strcopy(sBuff, iBuffSize, "weapon_knife_t");
-		case 60: strcopy(sBuff, iBuffSize, "weapon_m4a1_silencer");
-		case 61: strcopy(sBuff, iBuffSize, "weapon_usp_silencer");
-		case 63: strcopy(sBuff, iBuffSize, "weapon_cz75a");
-		case 64: strcopy(sBuff, iBuffSize, "weapon_revolver");
-		case 80: strcopy(sBuff, iBuffSize, "weapon_knife_ghost");
-		case 500: strcopy(sBuff, iBuffSize, "weapon_bayonet");
-		case 503: strcopy(sBuff, iBuffSize, "weapon_knife_classic");
-		case 505: strcopy(sBuff, iBuffSize, "weapon_knife_flip");
-		case 506: strcopy(sBuff, iBuffSize, "weapon_knife_gut");
-		case 507: strcopy(sBuff, iBuffSize, "weapon_knife_karambit");
-		case 508: strcopy(sBuff, iBuffSize, "weapon_knife_m9_bayonet");
-		case 509: strcopy(sBuff, iBuffSize, "weapon_knife_flip");
-		case 512: strcopy(sBuff, iBuffSize, "weapon_knife_falchion");
-		case 514: strcopy(sBuff, iBuffSize, "weapon_knife_survival_bowie");
-		case 515: strcopy(sBuff, iBuffSize, "weapon_knife_butterfly");
-		case 516: strcopy(sBuff, iBuffSize, "weapon_knife_push");
-		case 517: strcopy(sBuff, iBuffSize, "weapon_knife_cord");
-		case 518: strcopy(sBuff, iBuffSize, "weapon_knife_canis");
-		case 519: strcopy(sBuff, iBuffSize, "weapon_knife_ursus");
-		case 520: strcopy(sBuff, iBuffSize, "weapon_knife_gypsy_jackknife");
-		case 521: strcopy(sBuff, iBuffSize, "weapon_knife_outdoor");
-		case 522: strcopy(sBuff, iBuffSize, "weapon_knife_stiletto");
-		case 523: strcopy(sBuff, iBuffSize, "weapon_knife_widowmaker");
-		case 525: strcopy(sBuff, iBuffSize, "weapon_knife_skeleton");
-		default: GetEdictClassname(iEnt, sBuff, iBuffSize);
-	}
+	CS_WeaponIDToAlias(CS_ItemDefIndexToID(iItemDefinitionIndex), sAliasBuffer, sizeof sAliasBuffer);
+	CS_GetTranslatedWeaponAlias(sAliasBuffer, sBuffer, sizeof sBuffer);
+	Format(sBuff, iBuffSize, "weapon_%s", sBuffer);
 }
 
-void GetKnifeName(int iEnt, char[] sBuff, int iBuffSize)
-{
-	int i = GetEntProp(iEnt, Prop_Send, "m_iItemDefinitionIndex");
-	
-	switch(i)
-	{
-		case 41: strcopy(sBuff, iBuffSize, "weapon_knifegg");
-		case 42: strcopy(sBuff, iBuffSize, "weapon_knife");
-		case 59: strcopy(sBuff, iBuffSize, "weapon_knife_t");
-		case 80: strcopy(sBuff, iBuffSize, "weapon_knife_ghost");
-		case 500: strcopy(sBuff, iBuffSize, "weapon_bayonet");
-		case 503: strcopy(sBuff, iBuffSize, "weapon_knife_classic");
-		case 505: strcopy(sBuff, iBuffSize, "weapon_knife_flip");
-		case 506: strcopy(sBuff, iBuffSize, "weapon_knife_gut");
-		case 507: strcopy(sBuff, iBuffSize, "weapon_knife_karambit");
-		case 508: strcopy(sBuff, iBuffSize, "weapon_knife_m9_bayonet");
-		case 509: strcopy(sBuff, iBuffSize, "weapon_knife_flip");
-		case 512: strcopy(sBuff, iBuffSize, "weapon_knife_falchion");
-		case 514: strcopy(sBuff, iBuffSize, "weapon_knife_survival_bowie");
-		case 515: strcopy(sBuff, iBuffSize, "weapon_knife_butterfly");
-		case 516: strcopy(sBuff, iBuffSize, "weapon_knife_push");
-		case 517: strcopy(sBuff, iBuffSize, "weapon_knife_cord");
-		case 518: strcopy(sBuff, iBuffSize, "weapon_knife_canis");
-		case 519: strcopy(sBuff, iBuffSize, "weapon_knife_ursus");
-		case 520: strcopy(sBuff, iBuffSize, "weapon_knife_gypsy_jackknife");
-		case 521: strcopy(sBuff, iBuffSize, "weapon_knife_outdoor");
-		case 522: strcopy(sBuff, iBuffSize, "weapon_knife_stiletto");
-		case 523: strcopy(sBuff, iBuffSize, "weapon_knife_widowmaker");
-		case 525: strcopy(sBuff, iBuffSize, "weapon_knife_skeleton");
-	}
+bool IsWeaponKnife(int iWeapon){
+	char sClass[8];
+	GetEntityNetClass(iWeapon, sClass, sizeof(sClass));
+	return strncmp(sClass, "CKnife", 6) == 0;
 }
