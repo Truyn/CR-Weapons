@@ -129,6 +129,10 @@ void ClearWeapons(int iClient)
 					if(g_bSave && !g_bSaved[iClient])
 					{
 						GetWeaponName(iEnt, sWeapon, sizeof(sWeapon));
+						if (StrEqual(sWeapon, "weapon_usp_silencer"))
+						{
+							FormatEx(sWeapon, sizeof(sWeapon), "weapon_silencer");
+						}
 						if(strcmp(sWeapon, "weapon_melee") == 0)
 						{
 							switch(GetEntData(iEnt, m_iItemDefinitionIndex, 2))
