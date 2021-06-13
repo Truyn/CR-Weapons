@@ -251,6 +251,7 @@ void GetWeaponName(int iEnt, char[] sBuff, int iBuffSize)
 	
 	CS_WeaponIDToAlias(CS_ItemDefIndexToID(iItemDefinitionIndex), sAliasBuffer, sizeof sAliasBuffer);
 	CS_GetTranslatedWeaponAlias(sAliasBuffer, sBuffer, sizeof sBuffer);
+	ReplaceString(sBuffer, sizeof sBuffer, "silencer", "usp_silencer");
 	Format(sBuff, iBuffSize, "weapon_%s", sBuffer);
 }
 
