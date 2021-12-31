@@ -6,6 +6,8 @@
 #include <cstrike>
 #include <custom_rounds>
 
+#include PTaH
+
 #pragma newdecls required
 
 ArrayList	g_hWeapons[MAXPLAYERS+1];
@@ -25,7 +27,7 @@ public Plugin myinfo =
 {
 	name = "[CR] Weapons",
 	author = "fr4nch",
-	version = "1.1.0",
+	version = "1.1.1",
 	url = "https://vk.com/fr4nch | https://github.com/fr0nch"
 };
 
@@ -250,13 +252,9 @@ Action OnWeaponCanUse(int iClient, int iWeapon)
 
 void GetWeaponName(int iEnt, char[] sBuff, int iBuffSize)
 {
-	int iItemDefinitionIndex = GetEntProp(iEnt, Prop_Send, "m_iItemDefinitionIndex");
-	char sAliasBuffer[64], sBuffer[32];
-	
-	CS_WeaponIDToAlias(CS_ItemDefIndexToID(iItemDefinitionIndex), sAliasBuffer, sizeof sAliasBuffer);
-	CS_GetTranslatedWeaponAlias(sAliasBuffer, sBuffer, sizeof sBuffer);
-	ReplaceString(sBuffer, sizeof sBuffer, "silencer", "usp_silencer");
-	Format(sBuff, iBuffSize, "weapon_%s", sBuffer);
+	CEconItemDefinition pItemDefinition = PTaH_GetItemDefinitionByDefIndex(GetEntProp(iEnt, Prop_Send, "m_iItemDefinitionIndex"));
+	pItemDefinition.GetDefinitionName(sBuff, iBuffSize);
+	// PrintToChatAll("Оружие - %s", sBuff);
 }
 
 bool IsWeaponKnife(int iWeapon){
