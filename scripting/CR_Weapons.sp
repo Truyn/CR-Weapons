@@ -27,7 +27,7 @@ public Plugin myinfo =
 {
 	name = "[CR] Weapons",
 	author = "fr4nch",
-	version = "1.1.1",
+	version = "1.1.2",
 	url = "https://vk.com/fr4nch | https://github.com/fr0nch"
 };
 
@@ -58,7 +58,7 @@ public void OnClientDisconnect(int iClient)
 
 public void CR_OnRoundStart(KeyValues Kv)
 {
-	if(Kv)
+	if (Kv)
 	{
 		KvGetString(Kv, "weapons", g_sWeapons, sizeof(g_sWeapons));			// Ключ `weapons` в который нужно вписать оружия, которые нужно выдавать
 		g_bBlock		= view_as<bool>(Kv.GetNum("block_weapons", 0));		// Не работает, если нет оружий в ключе `weapons`
@@ -66,9 +66,19 @@ public void CR_OnRoundStart(KeyValues Kv)
 		g_bNoKnife 		= view_as<bool>(Kv.GetNum("no_knife", 0));			// Очищает оружие, и блокирует ножи, если есть оружия в ключе `weapons`
 		g_bSave	 		= view_as<bool>(Kv.GetNum("save_weapons", 1));		// Сохраняет оружия игрока перед нестандартным раундом
 		g_iClearMap		= Kv.GetNum("clear_map", 0);						// Очищает карту от оружия | 1 - очищает в начале раунда | 2 - очищает в конце раунда | 3 - очищает в начали и конце раунда
-	} else { if(g_bBlock) g_bBlock = false; }
-
-	if(g_iClearMap == 1 || g_iClearMap == 3) CreateTimer(1.5, ClearMapTimer);
+	
+		if (g_iClearMap == 1 || g_iClearMap == 3)
+		{
+			CreateTimer(1.5, ClearMapTimer);
+		}
+	}
+	else
+	{
+		if (g_bBlock)
+		{
+			g_bBlock = false;
+		}
+	}
 }
 
 Action ClearMapTimer(Handle timer)
