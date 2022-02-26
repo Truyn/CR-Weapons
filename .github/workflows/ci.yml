@@ -28,7 +28,7 @@ jobs:
       run: |
         which spcomp
         mkdir -p plugins
-        spcomp -i$includePath -iscripting/include scripting/CR_Weapons.sp -O2 -v2 -oplugins/CR_Weapons.smx
+        spcomp -i $includePath -i scripting/include scripting/CR_Weapons.sp -O2 -v2 -o plugins/CR_Weapons.smx
     - name: --- Build project
       if: startsWith(github.ref, 'refs/tags/')
       run: |
