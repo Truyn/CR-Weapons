@@ -89,7 +89,7 @@ Action ClearMapTimer(Handle timer)
 
 public void CR_OnPlayerSpawn(int iClient, KeyValues Kv)
 {
-	if(!CR_IsCustomRound() && g_hWeapons[iClient].Length != 0)
+	if(!CR_IsCustomRound() && g_hWeapons[iClient].Length != 0 && g_bSaved[iClient])
 	{
 		ClearWeapons(iClient);
 		RequestFrame(GiveSavedWeapons, iClient);
@@ -136,9 +136,9 @@ void ClearWeapons(int iClient)
 			while ((iEnt = GetPlayerWeaponSlot(iClient, i)) != -1)
 			{
 				RemovePlayerItem(iClient, iEnt);
-				if(IsValidEdict(iEnt))
+				if (IsValidEdict(iEnt))
 				{
-					if(g_bSave && !g_bSaved[iClient])
+					if (g_bSave && !g_bSaved[iClient])
 					{
 						GetWeaponName(iEnt, sWeapon, sizeof(sWeapon));
 						if (StrEqual(sWeapon, "weapon_usp_silencer"))
@@ -211,7 +211,7 @@ void GiveFists(int iClient)
 
 void GiveSavedWeapons(int iClient)
 {	
-	if(IsClientInGame(iClient) && !IsFakeClient(iClient) && IsPlayerAlive(iClient))
+	if (IsClientInGame(iClient) && !IsFakeClient(iClient) && IsPlayerAlive(iClient))
 	{
 		char sWeapon[24];		
 		int size = GetArraySize(g_hWeapons[iClient]);
